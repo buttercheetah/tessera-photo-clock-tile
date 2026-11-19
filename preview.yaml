@@ -1,0 +1,65 @@
+# What tools/preview.py shows (docs/PREVIEW.md): the memory caption and the now strip over a dark photo with a location
+# sensor (city and state attributes), over a bright photo with a location sensor whose state is the place, on the
+# photo's anniversary with an unavailable location (the line hidden) and before an image entity is chosen.
+time_zone: America/New_York
+tiles:
+  - tile: photo
+    name: Dark photo
+    entity: image.immich_photo_cycle_album_random_image
+    options: { location: sensor.immich_photo_place }
+    sizes: [4x4]
+  - tile: photo
+    name: Bright photo
+    entity: image.bright
+    options: { location: sensor.place_text, inside: climate.nest_01aa02ab151203wr }
+    sizes: [4x4]
+  - tile: photo
+    name: On this day, no place
+    entity: image.anniversary
+    options: { location: sensor.place_unavailable }
+    sizes: [4x4]
+  - tile: photo
+    name: No entity yet
+    sizes: [2x2]
+
+states:
+  image.immich_photo_cycle_album_random_image:
+    state: "2026-11-18T22:31:59.069808"
+    attributes:
+      friendly_name: Immich Photo Cycle Album Random Image
+      media_localdatetime: "2024-09-09T09:08:41.996Z"
+  image.bright:
+    state: "2026-11-18T22:36:59.000001"
+    attributes:
+      friendly_name: Bright
+      media_localdatetime: "2021-02-13T14:22:05.000Z"
+  image.anniversary:
+    state: "2026-11-18T22:41:59.000002"
+    attributes:
+      friendly_name: Anniversary
+      media_localdatetime: "2019-11-19T17:45:12.000Z"
+  sensor.immich_photo_place:
+    state: "Wilmington, North Carolina"
+    attributes: { friendly_name: Immich photo place, city: Wilmington, state: North Carolina, country: United States of America }
+  sensor.place_text:
+    state: "Boone, NC"
+    attributes: { friendly_name: Photo place }
+  sensor.place_unavailable:
+    state: unavailable
+    attributes: { friendly_name: Photo place }
+  weather.forecast_home:
+    state: clear-night
+    attributes: { friendly_name: Forecast Home, temperature: 46, temperature_unit: "°F" }
+  sensor.nest_01aa02ab151203wr_temperature:
+    state: "70.86"
+    attributes: { friendly_name: Living Room Temperature, unit_of_measurement: "°F", device_class: temperature }
+  climate.nest_01aa02ab151203wr:
+    state: heat
+    attributes: { friendly_name: Living Room, current_temperature: 71, temperature: 68 }
+
+pictures:
+  "/api/image_proxy/image.immich_photo_cycle_album_random_image?v=20261118T223159069808": preview/fjord.jpg
+  "/api/image_proxy/image.bright?v=20261118T223659000001": preview/snow.jpg
+  "/api/image_proxy/image.anniversary?v=20261118T224159000002": preview/fjord.jpg
+# A photo the app cannot take (over 4 MB at the proxy, then the camera still) is in /workspace/ha/tessera/_bench_tests/photo_clock_tile_fallback,
+# for a bench taught that the app has no picture at an address.

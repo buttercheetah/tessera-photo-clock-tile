@@ -1,0 +1,61 @@
+# Photo clock tile 0.2: an image entity's photo over the whole page. At the bottom left the photo's own caption (how
+# long ago, where, the day and time it was taken); at the top right a slim strip of what is true now (the time, the
+# temperature inside and outside). docs/MANIFEST.md has every field.
+id: photo_clock_tile
+version: 0.2.2
+api: "0.27"
+icon: image
+maintainer: noahliby
+license: MIT
+stage: beta
+topics: [photos, time]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 8
+
+permissions:
+  home_assistant_actions:
+    - esphome.kitchen_control_screen_show_page
+    - button.press
+    - script.turn_on
+
+tiles:
+  - id: photo
+    name: tile_name
+    icon: image
+    sizes: { min: 2x2, max: 4x4, full: true }
+    # A picture place, two shades and ten labels, and the texts it keeps.
+    memory: 1800
+    pictures: 1
+    domains: [image]
+    attributes: [media_localdatetime, media_datetime, date_taken, taken_at, city, state, country, media_city, media_state, media_country]
+    example: tile_example
+    options:
+      - { id: outside, kind: entity, domains: [weather, sensor, climate], attributes: [temperature, current_temperature], default: weather.forecast_home, label: outside, hint: outside_hint }
+      - { id: inside, kind: entity, domains: [sensor, climate, weather], attributes: [temperature, current_temperature], default: sensor.nest_01aa02ab151203wr_temperature, label: inside, hint: inside_hint }
+      - { id: location, kind: entity, domains: [sensor, input_text], attributes: [city, state, country], label: location, hint: location_hint }
+      - id: date_attribute
+        kind: choice
+        label: date_attribute
+        hint: date_attribute_hint
+        default: media_localdatetime
+        choices:
+          - { value: media_localdatetime, label: attr_media_localdatetime }
+          - { value: media_datetime, label: attr_media_datetime }
+          - { value: date_taken, label: attr_date_taken }
+          - { value: taken_at, label: attr_taken_at }
+      - { id: show_time_taken, kind: toggle, label: show_time_taken, hint: show_time_taken_hint, default: true }
+      - { id: show_ago, kind: toggle, label: show_ago, hint: show_ago_hint, default: true }
+      - id: tap_action
+        kind: choice
+        label: tap_action
+        hint: tap_action_hint
+        default: page
+        choices:
+          - { value: page, label: tap_page_choice }
+          - { value: button, label: tap_button_choice }
+          - { value: script, label: tap_script_choice }
+          - { value: none, label: tap_none_choice }
+      - { id: tap_page, kind: number, label: tap_page, hint: tap_page_hint, default: 2, min: 1, max: 24, step: 1 }
+      - { id: tap_entity, kind: text, label: tap_entity, hint: tap_entity_hint }
